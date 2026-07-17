@@ -1,0 +1,13 @@
+.gradle/
+build/
+**/build/
+
+# Local MCP-Reborn checkout and official Minecraft jars are user-provided.
+mcp-reborn/*
+!mcp-reborn/.gitkeep
+jars/*
+!jars/.gitkeep
+
+# IDE files
+.idea/
+*.iml

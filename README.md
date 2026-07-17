@@ -11,14 +11,41 @@ Omnix Client is a Minecraft 1.20.1 MCP-Reborn project scaffold for a native clie
 - Java: JDK 17
 - IDE: IntelliJ IDEA with Gradle import
 
+## Repository Layout
+
+- `settings.gradle` and `build.gradle`: root Gradle scaffold for MCP-Reborn validation and launcher distribution tasks.
+- `launcher/`: Java 17 launcher application that starts a built Omnix client jar with configurable RAM and optional direct server join.
+- `scripts/setup-mcp-reborn.sh`: helper script that validates local jars and runs MCP-Reborn setup.
+- `jars/`: local-only directory for official Minecraft 1.20.1 `client.jar` and `server.jar`.
+- `mcp-reborn/`: local-only MCP-Reborn checkout.
+- `patches/`: workspace for reviewed MCP source patches.
+- `config/omnix/`: default Omnix configuration.
+
 ## Build Workflow
 
-1. Clone MCP-Reborn.
+1. Clone MCP-Reborn into `./mcp-reborn`.
 2. Place the official Minecraft 1.20.1 `client.jar` and `server.jar` files in `./jars/`.
-3. Run `./gradlew setup` to decompile editable sources.
+3. Run `./scripts/setup-mcp-reborn.sh` or `./gradlew setupMcpReborn` to decompile editable sources.
 4. Apply Omnix source patches and configuration files.
 5. Run `./gradlew runclient` for local testing.
-6. Run `./gradlew build` to produce the client jar.
+6. Run `./gradlew build` to build the launcher distribution and copy default Omnix config.
+
+## Launcher
+
+The launcher module is a minimal Java 17 application. It accepts these options:
+
+```text
+--java <path>        Java executable to use
+--client-jar <path>  Built Omnix client jar
+--ram-gb <2-16>      RAM allocation in GB
+--server <host>      Optional direct-join server host
+```
+
+Example:
+
+```bash
+./gradlew :launcher:run --args="--client-jar build/libs/omnix-client-1.20.1.jar --ram-gb 4"
+```
 
 ## Safety and Fair-Play Scope
 

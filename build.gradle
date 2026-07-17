@@ -1,0 +1,62 @@
+plugins {
+    id 'base'
+}
+
+group = 'dev.omnix'
+version = '1.20.1'
+
+ext {
+    minecraftVersion = '1.20.1'
+    requiredJavaVersion = JavaVersion.VERSION_17
+    mcpRebornDir = layout.projectDirectory.dir('mcp-reborn')
+    jarsDir = layout.projectDirectory.dir('jars')
+    omnixConfigDir = layout.projectDirectory.dir('config/omnix')
+}
+
+tasks.register('verifyMcpInputs') {
+    group = 'verification'
+    description = 'Verifies the local MCP-Reborn checkout and official Minecraft jars are present.'
+
+    doLast {
+        def missing = []
+        if (!mcpRebornDir.asFile.exists()) {
+            missing << 'mcp-reborn/ checkout'
+        }
+        if (!jarsDir.file('client.jar').asFile.exists()) {
+            missing << 'jars/client.jar'
+        }
+        if (!jarsDir.file('server.jar').asFile.exists()) {
+            missing << 'jars/server.jar'
+        }
+        if (!omnixConfigDir.file('omnix-settings.json').asFile.exists()) {
+            missing << 'config/omnix/omnix-settings.json'
+        }
+        if (!missing.empty) {
+            throw new GradleException('Missing required MCP inputs: ' + missing.join(', '))
+        }
+    }
+}
+
+tasks.register('setupMcpReborn') {
+    group = 'mcp'
+    description = 'Runs the MCP-Reborn setup task after validating local inputs.'
+    dependsOn 'verifyMcpInputs'
+
+    doLast {
+        exec {
+            workingDir mcpRebornDir.asFile
+            commandLine System.getProperty('os.name').toLowerCase().contains('windows') ? 'gradlew.bat' : './gradlew', 'setup'
+        }
+    }
+}
+
+tasks.register('copyOmnixConfig', Copy) {
+    group = 'distribution'
+    description = 'Copies Omnix default config into the build distribution directory.'
+    from omnixConfigDir
+    into layout.buildDirectory.dir('omnix/config')
+}
+
+tasks.named('assemble') {
+    dependsOn ':launcher:installDist', 'copyOmnixConfig'
+}
