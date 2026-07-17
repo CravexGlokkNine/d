@@ -1,0 +1,13 @@
+Omnix Client Keybinds
+=====================
+
+RIGHT SHIFT
+  Open or close the Omnix overlay menu.
+
+F8
+  Open the quick profile selector for local visual/HUD/performance presets.
+
+Notes
+-----
+- Keybinds are reserved for compliant client preferences only.
+- Omnix does not include anti-cheat evasion, credential spoofing, packet spoofing, or unfair multiplayer combat automation.
