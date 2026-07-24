@@ -1,0 +1,33 @@
+{
+  "client": {
+    "name": "Omnix Client",
+    "tagline": "Native. Unfiltered. Unmatched.",
+    "minecraftVersion": "1.20.1",
+    "framework": "MCP-Reborn"
+  },
+  "keybinds": {
+    "openOverlay": "RIGHT_SHIFT",
+    "quickProfiles": "F8"
+  },
+  "visuals": {
+    "noFog": false,
+    "lowFire": false,
+    "clearGlass": false,
+    "hurtCamera": true,
+    "brightnessOverride": 1.0,
+    "transparentChat": false
+  },
+  "hud": {
+    "cpsCounter": false,
+    "pingDisplay": false,
+    "coordinates": false,
+    "armorStatus": false,
+    "potionEffects": false
+  },
+  "performance": {
+    "renderDistanceOverride": null,
+    "entityDistanceOverride": 64,
+    "enableConservativeCulling": false
+  },
+  "profiles": []
+}
